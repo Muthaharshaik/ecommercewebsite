@@ -1,0 +1,64 @@
+//userRoutes description
+1. Register (/register)
+Flow:
+
+Check if a user with the given email already exists in the database.
+
+If not, create a new user with hashed password using bcrypt.
+
+Generate a JWT token with the payload as the MongoDB _id of the user.
+
+Store the token in an HTTP-only cookie.
+
+Respond with 201 Created and user details (excluding password).
+
+2. Login (/login)
+Flow:
+
+Check if the provided email exists in the database.
+
+Compare the entered password with the stored hashed password using bcrypt.compare.
+
+If valid, generate a JWT token with user _id as the payload.
+
+Store the token in an HTTP-only cookie.
+
+Respond with user details (excluding password).
+
+3 Profile (Get /profile and Update /profile)
+Middleware (verifyAuth):
+
+Checks for a valid token in req.cookies.token.
+
+Verifies the token and attaches the decoded user info (req.user) to the request object.
+
+If no token or invalid token, blocks access with 401 Unauthorized.
+
+Get Profile:
+
+Uses req.user.id to fetch user details from the database.
+
+Responds with user details.
+
+Update Profile:
+
+Uses req.user.id to find the user.
+
+Updates the name, email, and (optionally) the password (rehashing it).
+
+Responds with updated user info.
+
+ 4. Logout (/logout)
+Flow:
+
+Clears the cookie storing the token using res.clearCookie("token").
+
+Responds with a success message.
+
+Since the cookie is removed, the token is no longer available for authentication, effectively logging the user out.
+
+
+//ref in MongoDB
+when ever we create a model(collection) in mongo an unique id will be careted for the each doument
+so when we want to link to collections we woill do that by using that id and ref attribute
+so that we can fetch the one collection by using another collection

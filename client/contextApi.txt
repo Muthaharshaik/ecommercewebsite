@@ -1,0 +1,11 @@
+The Context API allows you to:
+
+Share state (like user info) across multiple components.
+
+Avoid "prop drilling" (passing props through many layers).
+
+Create a Context (like UserContext)
+
+Wrap your app in a Provider (UserProvider) to share data.
+
+Use that data anywhere via useContext
