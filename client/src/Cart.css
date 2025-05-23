@@ -1,0 +1,177 @@
+/* Cart.css */
+
+.cart-page {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cart-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.continue-shopping {
+  float: right;
+  font-size: 14px;
+  text-decoration: underline;
+  color: #000;
+  margin-top: -25px;
+  margin-bottom: 20px;
+}
+
+.cart-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.cart-items {
+  flex: 2;
+}
+
+.cart-item {
+  display: flex;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.item-image {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-details h4 {
+  font-size: 16px;
+  margin: 0 0 5px 0;
+}
+
+.item-number {
+  color: #888;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.price {
+  color: #cc0000;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-controls button {
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  background: none;
+  cursor: pointer;
+}
+
+.quantity-controls span {
+  font-weight: bold;
+}
+
+/* Right Panel - Order Summary */
+.order-summary {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 20px;
+  min-width: 280px;
+  max-height: fit-content;
+}
+
+.order-summary h3 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.summary-line.total {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #1a46d6;
+  color: white;
+  font-weight: bold;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 24px;
+  font-size: 16px;
+}
+
+/* Guest User Message */
+.guest-message {
+  text-align: center;
+  margin-top: 100px;
+  padding: 30px;
+  background: #fff3f3;
+  border: 1px solid #ffa3a3;
+  border-radius: 8px;
+}
+
+.guest-message .btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #1a46d6;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cart-layout {
+    flex-direction: column;
+  }
+
+  .continue-shopping {
+    float: none;
+    display: block;
+    margin: 10px 0;
+    text-align: right;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .item-image {
+    width: 100px;
+  }
+
+  .quantity-controls {
+    justify-content: center;
+  }
+
+  .order-summary {
+    margin-top: 20px;
+  }
+}

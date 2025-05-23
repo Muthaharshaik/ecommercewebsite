@@ -5,12 +5,15 @@ import App from './app';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css';
 import { UserProvider } from './context/userContext'; 
+import { CartProvider } from './context/cartContext';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <UserProvider>
-        <App />
+      <CartProvider>
+         <App />
+      </CartProvider>
     </UserProvider>
   </BrowserRouter>
 );
