@@ -62,3 +62,14 @@ Since the cookie is removed, the token is no longer available for authentication
 when ever we create a model(collection) in mongo an unique id will be careted for the each doument
 so when we want to link to collections we woill do that by using that id and ref attribute
 so that we can fetch the one collection by using another collection
+
+//populate 
+Think of it like a foreign key in SQL:
+
+You have a Cart that stores product as just an ID.
+
+The actual product details (name, price, image) are stored in the Product collection.
+
+Without .populate(), you only get the product ID.
+
+With .populate(), Mongoose fetches the related Product document and embeds it into the response

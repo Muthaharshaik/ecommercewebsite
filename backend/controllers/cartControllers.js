@@ -34,7 +34,8 @@ async function addToCart(req,res) {
             }
         }
         const savedCart = await cart.save();
-        res.status(200).json(savedCart);
+        const populatedCart = await savedCart.populate('products.product');
+        res.status(200).json(populatedCart);
     } catch(error) {
          res.status(500).json({message:'Server Error', error:error.message})
     }
@@ -53,6 +54,7 @@ async function updateCartProduct(req,res) {
        if (productIndex === -1) return res.status(404).json({ message: 'Product not found in cart' });
        cart.products[productIndex].quantity += quantity;
        const updatedCart = await cart.save();
+       await updatedCart.populate('products.product');
        res.status(200).json(updatedCart)
     } catch(error) {
         res.status(500).json({message:'Server Error', error:error.message})

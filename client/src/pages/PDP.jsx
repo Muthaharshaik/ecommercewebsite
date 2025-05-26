@@ -1,26 +1,50 @@
-import {useState, useEffect} from 'react';
-import { useParams} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useCart } from '../context/cartContext';
+import { useUser } from '../context/userContext';
+import toast from 'react-hot-toast';
 
-const ProductDetailsPage = ()=> {
-    const {id} = useParams();
-    const [product, setProduct] = useState(null);
+const ProductDetailsPage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
+  const { user } = useUser();
 
-    useEffect(()=>{
-        axios.get(`/api/products/${id}`)
-        .then(res => {
-            setProduct(res.data)
-        })
-        .catch(error => {
-            console.error('Error fetching product:', error);
-        })
-    }, [id])
+  const [product, setProduct] = useState(null);
 
-    if (!product) {
-        return <div className="text-center mt-5">Product not found.</div>;
+  useEffect(() => {
+    axios
+      .get(`/api/products/${id}`)
+      .then((res) => {
+        setProduct(res.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching product:', error);
+      });
+  }, [id]);
+
+  const handleAddToCart = async () => {
+    if (!user) {
+      toast.error('Please login to add items to cart');
+      setTimeout(() => navigate('/'), 4000);
+      return;
     }
 
-      return (
+    try {
+      await addToCart(product._id,1);
+      toast.success('Added to cart');
+    } catch (err) {
+      console.log(err)
+      toast.error('Failed to add to cart');
+    }
+  };
+
+  if (!product) {
+    return <div className="text-center mt-5">Product not found.</div>;
+  }
+
+  return (
     <div className="container my-5">
       <div className="row">
         {/* Product Image */}
@@ -37,8 +61,8 @@ const ProductDetailsPage = ()=> {
           <h2>{product.name}</h2>
           <p className="text-muted">{product.description || 'No description available.'}</p>
           <h4 className="text-success fw-bold">₹{product.price.toFixed(2)}</h4>
-          
-          <button className="btn btn-primary mt-3">
+
+          <button className="btn btn-primary mt-3" onClick={handleAddToCart}>
             Add to Bag
           </button>
         </div>
@@ -48,3 +72,4 @@ const ProductDetailsPage = ()=> {
 };
 
 export default ProductDetailsPage;
+

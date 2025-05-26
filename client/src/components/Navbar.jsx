@@ -1,57 +1,144 @@
-import React from 'react';
-import { Container, Nav, Navbar, NavDropdown,Badge  } from 'react-bootstrap';
- //this library gives us Bootstrap components as React-ready components.
+import React, { useState } from 'react';
+import { Container, Nav, Navbar, NavDropdown, Badge } from 'react-bootstrap';
 import './Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useUser } from '../context/userContext';
+import { useCart } from '../context/cartContext';
+import { FaShoppingCart } from 'react-icons/fa';
 
-
-
-
-const Header = ()=> {
+const Header = () => {
   const { user, setUser } = useUser();
+  const { cartItems } = useCart();
   const navigate = useNavigate();
+
+  const [expanded, setExpanded] = useState(false);
+
   const handleLogout = async () => {
     try {
       await axios.post('/api/users/logout', {}, { withCredentials: true });
-      setUser(null); // clear user from context
+      setUser(null);
       navigate('/');
+      setExpanded(false);
     } catch (err) {
       console.error('Logout error:', err);
     }
   };
-  return(
-    <Navbar bg="light" expand="lg">
-        <Container>
-            <Navbar.Brand href='/'>Muthahar's Mart</Navbar.Brand>
-            {/* Hamburger icon */}
-            <Navbar.Toggle/>
-            {/* Collapsible content triggered by the hamburger */}
-            <Navbar.Collapse className="justify-content-end">
-                <Nav className="me-auto">
-                  {/* Dynamic Category Links */}
-                <Nav.Link as={Link} to="/category/watches">Watches</Nav.Link>
-                <Nav.Link as={Link} to="/category/bags">Bags</Nav.Link>
-                <Nav.Link as={Link} to="/category/wallets">Wallets</Nav.Link>
-                <Nav.Link as={Link} to="/category/jewellery">Jewellery</Nav.Link>
-                </Nav>
-                          <Nav>
+
+  const cartCount = Array.isArray(cartItems)
+    ? cartItems.reduce((total, item) => total + item.quantity, 0)
+    : 0;
+
+  const handleNavItemClick = () => {
+    setExpanded(false);
+  };
+
+  return (
+    <Navbar bg="light" expand="lg" expanded={expanded} onToggle={setExpanded}>
+      <Container>
+        <Navbar.Brand as={Link} to="/" onClick={handleNavItemClick}>
+          Muthahar's Mart
+        </Navbar.Brand>
+
+        {/* Mobile: Cart first, then Hamburger with small gap */}
+        <div className="d-lg-none d-flex align-items-center">
+          <Nav.Link
+            as={Link}
+            to="/cart"
+            onClick={handleNavItemClick}
+            className="position-relative me-2"
+            style={{ padding: '0.25rem' }}
+          >
+            <FaShoppingCart size={24} />
+            {cartCount > 0 && (
+              <Badge
+                bg="danger"
+                pill
+                className="position-absolute"
+                style={{
+                  top: '6px',
+                  right: '2px',
+                  fontSize: '0.65rem',
+                  transform: 'none',
+                }}
+              >
+                {cartCount}
+              </Badge>
+            )}
+          </Nav.Link>
+
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        </div>
+
+        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-start">
+          <Nav className="flex-column flex-lg-row w-100">
+            <Nav.Link as={Link} to="/category/watches" onClick={handleNavItemClick}>
+              Watches
+            </Nav.Link>
+            <Nav.Link as={Link} to="/category/bags" onClick={handleNavItemClick}>
+              Bags
+            </Nav.Link>
+            <Nav.Link as={Link} to="/category/wallets" onClick={handleNavItemClick}>
+              Wallets
+            </Nav.Link>
+            <Nav.Link as={Link} to="/category/jewellery" onClick={handleNavItemClick}>
+              Jewellery
+            </Nav.Link>
+
+            <div className="flex-grow-1" />
+
             {user ? (
-              <NavDropdown title={user.name} id="user-nav-dropdown">
-                <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+              <NavDropdown title={user.name} id="user-nav-dropdown" onSelect={handleNavItemClick}>
+                <NavDropdown.Item
+                  onClick={() => {
+                    handleLogout();
+                    setExpanded(false);
+                  }}
+                >
+                  Logout
+                </NavDropdown.Item>
               </NavDropdown>
             ) : (
               <>
-                <Nav.Link as={Link} to="/register">Register</Nav.Link>
-                <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                <Nav.Link as={Link} to="/register" onClick={handleNavItemClick}>
+                  Register
+                </Nav.Link>
+                <Nav.Link as={Link} to="/login" onClick={handleNavItemClick}>
+                  Login
+                </Nav.Link>
               </>
             )}
+
+            {/* Desktop cart icon on right */}
+            <Nav.Link
+              as={Link}
+              to="/cart"
+              className="d-none d-lg-flex align-items-center position-relative ms-3"
+              style={{ padding: '0.25rem' }}
+            >
+              <FaShoppingCart size={24} />
+              {cartCount > 0 && (
+                <Badge
+                  bg="danger"
+                  pill
+                  className="position-absolute"
+                  style={{
+                    top: '0px',
+                    right: '2px',
+                    fontSize: '0.5rem',
+                    transform: 'none',
+                  }}
+                >
+                  {cartCount}
+                </Badge>
+              )}
+            </Nav.Link>
           </Nav>
-            </Navbar.Collapse>
-        </Container>
+        </Navbar.Collapse>
+      </Container>
     </Navbar>
-  )
-}
+  );
+};
 
 export default Header;
+

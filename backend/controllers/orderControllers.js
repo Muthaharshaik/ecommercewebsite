@@ -1,9 +1,22 @@
 const Order = require('../models/Order');
 const Cart = require('../models/Cart');
-
+const Razorpay = require('razorpay');
+const crypto = require('crypto');
+require('dotenv').config()
 //Create Order (POST /api/orders)
 async function createOrder(req,res) {
     try {
+        const { razorpayOrderId, razorpayPaymentId, razorpaySignature } = req.body.paymentInfo;
+
+       const sign = razorpayOrderId + "|" + razorpayPaymentId;
+       const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_SECRET)
+                            .update(sign)
+                            .digest('hex');
+
+       if (expectedSignature !== razorpaySignature) {
+        return res.status(400).json({ message: 'Payment verification failed' });
+        }
+
         const cart = await Cart.findOne({user:req.user.id}).populate('products.product');
         if(!cart || cart.products.length === 0){
             return res.status(400).json({message:'Cart is empty'})
@@ -20,7 +33,12 @@ async function createOrder(req,res) {
                 quantity: item.quantity
             })),
             totalAmount,
-            shippingAddress: req.body.shippingAddress
+            shippingAddress: req.body.shippingAddress,
+            paymentInfo: {
+              id: razorpayPaymentId,
+              status: 'Paid'
+            },
+            paymentMethod: 'Razorpay'
         })
         const savedOrder = await newOrder.save();
         //clear the cart
