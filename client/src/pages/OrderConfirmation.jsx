@@ -1,12 +1,14 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import './OrderConfirmation.css'; // add styling here
+import './OrderConfirmation.css';
+import { useUser } from '../context/userContext';
 
 const OrderConfirmation = () => {
   const { state } = useLocation();
   const order = state?.order;
+  const { user } = useUser();
 
-  if (!order) {
+  if (!order || !user) {
     return (
       <div className="container py-5">
         <div className="alert alert-danger text-center">
