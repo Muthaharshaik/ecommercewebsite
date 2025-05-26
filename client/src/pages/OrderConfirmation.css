@@ -1,0 +1,19 @@
+.order-confirmation h2 {
+  font-weight: bold;
+}
+
+.order-confirmation .card {
+  max-width: 600px;
+  margin: auto;
+  border-radius: 16px;
+}
+
+.order-confirmation .lead {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.order-confirmation p {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}

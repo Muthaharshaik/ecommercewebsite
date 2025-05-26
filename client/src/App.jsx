@@ -7,6 +7,10 @@ import ProductDetailsPage from './pages/PDP';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/Login';
 import Cart from './pages/CartPage';
+import CheckoutPage from './pages/Checkout';
+import OrderConfirmation from './pages/OrderConfirmation';
+import ProtectedCheckoutRoute from './components/ProtectedRoute';
+
 
 function App() {
   return (
@@ -20,6 +24,8 @@ function App() {
         <Route path="/category/:categoryName" element={<CategoryPage />} />
         <Route path="/products/:id" element={<ProductDetailsPage />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={ <CheckoutPage/>} />
+        <Route path="/order-confirmation" element={<OrderConfirmation />} />
       </Routes>
     </>
   );
