@@ -79,7 +79,7 @@ const Cart = () => {
               <span>Total:</span>
               <span>₹{subtotal.toFixed(2)}</span>
             </div>
-            <button className="checkout-btn">Checkout</button>
+            <button className="checkout-btn" onClick={() => navigate('/checkout')}>Checkout</button>
           </div>
         </div>
       )}

@@ -1,0 +1,41 @@
+.featured-container {
+  margin: 40px 0;
+  padding: 0 20px;
+  overflow: hidden;
+}
+
+.featured-title {
+  font-size: 22px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.scroll-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.scroll-row {
+  display: flex;
+  gap: 15px;
+  animation: scroll-left 20s linear infinite;
+  width: fit-content;
+}
+
+.scroll-container:hover .scroll-row {
+  animation-play-state: paused; /* ✅ Pauses scroll so user can interact */
+}
+
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

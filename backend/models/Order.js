@@ -33,6 +33,18 @@ const orderSchema = new mongoose.Schema({
         state: String,
         zip: String,
         country: String,
+        street: String,
+        postalCode: String
+    },
+    paymentMethod: {
+      type: String,
+      enum: ['cod', 'Razorpay'],
+      required: true,
+    },
+    paymentStatus: {
+      type: String,
+      enum: ['pending', 'paid'],
+      default: 'pending',
     },
     createdAt: { 
        type: Date,

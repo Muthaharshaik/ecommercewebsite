@@ -35,7 +35,7 @@ const CategoryPage = () => {
                     src={product.image || 'https://via.placeholder.com/300x200?text=No+Image'} 
                     className="card-img-top" 
                     alt={product.name} 
-                    style={{ objectFit: 'cover', height: '200px' }}
+                    style={{ objectFit: 'contain', height: '200px' }}
                   />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">{product.name}</h5>
