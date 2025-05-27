@@ -22,6 +22,10 @@ app.use(cors({
   credentials: true // if using cookies/auth
 }));
 
+app.use((req, res, next) => {
+  console.log("Origin:", req.get("Origin")); // will log the Origin header of every request
+  next();
+});
 
 app.get('/', (req,res) => {
     res.send("Welcome to Ecom development");
