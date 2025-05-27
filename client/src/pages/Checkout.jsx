@@ -63,7 +63,7 @@ const validateForm = () => {
     if (!user) return toast.error('Please login to continue');
 
     try {
-      const { data } = await axios.post(`${baseUrl}api/payment/create-order`, {
+      const { data } = await axios.post(`${baseUrl}/api/payment/create-order`, {
         amount: subtotal * 100
       }, { withCredentials: true });
       console.log("Amount sent to backend:", subtotal*100);

@@ -12,20 +12,16 @@ const cors = require('cors');
 require('dotenv').config();
 
 connectDB();
-app.set('trust proxy', 1); // Required on Render
+
 //Middleware to parse json and form data
 app.use(express.json());
 app.use(express.urlencoded({extended : false}));
 app.use(cookieParser());
 app.use(cors({
-  origin:  'https://muthaharsmart.netlify.app',
+  origin: ['http://localhost:5173', 'https://muthaharsmart.netlify.app'],
   credentials: true // if using cookies/auth
 }));
 
-app.use((req, res, next) => {
-  console.log("Origin:", req.get("Origin")); // will log the Origin header of every request
-  next();
-});
 
 app.get('/', (req,res) => {
     res.send("Welcome to Ecom development");
