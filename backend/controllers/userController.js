@@ -31,9 +31,11 @@ async function registerUser(req,res) {
         });
 
         res.cookie('token', token, {
-            httpOnly: true,
-            maxAge: 3600000
-        })
+           httpOnly: true,
+           secure: process.env.NODE_ENV === 'production', // only on HTTPS
+           sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+           maxAge: 3600000
+        });
         
         res.status(201).json({
             _id: user._id,
@@ -64,9 +66,11 @@ async function loginUser(req,res) {
         });
 
         res.cookie('token', token, {
-            httpOnly: true,
-            maxAge: 3600000
-        })
+           httpOnly: true,
+           secure: process.env.NODE_ENV === 'production', // only on HTTPS
+           sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+           maxAge: 3600000
+        });
 
         res.status(201).json({
             _id: user._id,
@@ -127,9 +131,10 @@ async function updateUserProfile(req,res) {
 async function logoutUser(req,res) {
    res.clearCookie('token', {
     httpOnly: true,
-    sameSite: 'strict',
     secure: process.env.NODE_ENV === 'production',
-   })
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax'
+   });
+
 
    res.status(200).json({ message: 'Logged out successfully' });
 }
