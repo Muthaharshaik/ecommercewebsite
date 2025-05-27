@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const RegisterPage = () => {
   const [form, setForm] = useState({
@@ -22,7 +23,7 @@ const RegisterPage = () => {
     setMessage({ type: '', text: '' });
 
     try {
-      await axios.post('/api/users/register', form, { withCredentials: true });
+      await axios.post(`${baseUrl}/api/users/register`, form, { withCredentials: true });
       setMessage({ type: 'success', text: 'Registered successfully!' });
       setTimeout(() => navigate('/login'), 1500);
     } catch (err) {

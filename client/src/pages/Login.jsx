@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/userContext';
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const LoginPage = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -18,7 +19,7 @@ const LoginPage = () => {
     setMessage({ type: '', text: '' });
 
     try {
-      const res = await axios.post('/api/users/login', form, { withCredentials: true });
+      const res = await axios.post(`${baseUrl}/api/users/login`, form, { withCredentials: true });
       //update usercontext
       setUser(res.data);
       setMessage({ type: 'success', text: 'Login successful!' });

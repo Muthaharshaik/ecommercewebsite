@@ -1,13 +1,14 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const CategoryPage = () => {
   const { categoryName } = useParams();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios.get(`/api/categories/${categoryName}`)
+    axios.get(`${baseUrl}/api/categories/${categoryName}`)
       .then(res => {
         setProducts(res.data.products || []);
       })

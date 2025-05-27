@@ -1,5 +1,6 @@
 import React, {createContext, useContext, useState, useEffect} from "react";
 import axios from "axios";
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 //creating a context(it cretes a global state object)
 const UserContext = createContext();
@@ -11,7 +12,7 @@ const UserContext = createContext();
    useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get('/api/users/profile', { withCredentials: true });
+        const res = await axios.get(`${baseUrl}/api/users/profile`, { withCredentials: true });
         setUser(res.data);
       } catch (err) {
         setUser(null); // No user or invalid token

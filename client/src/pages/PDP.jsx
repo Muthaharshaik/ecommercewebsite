@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useCart } from '../context/cartContext';
 import { useUser } from '../context/userContext';
 import toast from 'react-hot-toast';
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
@@ -15,7 +16,7 @@ const ProductDetailsPage = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/products/${id}`)
+      .get(`${baseUrl}/api/products/${id}`)
       .then((res) => {
         setProduct(res.data);
       })

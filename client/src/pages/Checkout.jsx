@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import './CheckoutPage.css'
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const CheckoutPage = () => {
   const { cartItems, clearCart } = useCart();
@@ -62,12 +63,12 @@ const validateForm = () => {
     if (!user) return toast.error('Please login to continue');
 
     try {
-      const { data } = await axios.post('api/payment/create-order', {
+      const { data } = await axios.post(`${baseUrl}api/payment/create-order`, {
         amount: subtotal * 100
       }, { withCredentials: true });
       console.log("Amount sent to backend:", subtotal*100);
       const options = {
-        key: "rzp_test_oyFLAyyP9HhbS6",
+        key: import.meta.env.VITE_REACT_APP_RAZORPAY_KEY_ID,
         amount: subtotal * 100,
         currency: 'INR',
         name: `Muthahar's Mart`,
@@ -85,7 +86,7 @@ const validateForm = () => {
               razorpaySignature: response.razorpay_signature
             };
 
-            const verifyRes = await axios.post('/api/orders', {
+            const verifyRes = await axios.post(`${baseUrl}/api/orders`, {
               paymentInfo: paymentData,
               shippingAddress
             }, { withCredentials: true });

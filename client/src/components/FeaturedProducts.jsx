@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProductCard from './ProductCard';
 import './FeaturedProducts.css';
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
@@ -10,7 +12,7 @@ const FeaturedProducts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('/api/products');
+        const res = await axios.get(`${baseUrl}/api/products`);
         setProducts(res.data.slice(0, 5)); // Show only first 10 for simplicity
       } catch (err) {
         console.error("Error fetching products:", err);

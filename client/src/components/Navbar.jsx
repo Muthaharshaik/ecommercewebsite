@@ -6,6 +6,8 @@ import axios from 'axios';
 import { useUser } from '../context/userContext';
 import { useCart } from '../context/cartContext';
 import { FaShoppingCart } from 'react-icons/fa';
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
 
 const Header = () => {
   const { user, setUser } = useUser();
@@ -16,7 +18,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('/api/users/logout', {}, { withCredentials: true });
+      await axios.post(`${baseUrl}/api/users/logout`, {}, { withCredentials: true });
       setUser(null);
       navigate('/');
       setExpanded(false);
