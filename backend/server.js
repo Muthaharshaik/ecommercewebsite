@@ -12,7 +12,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 connectDB();
-
+app.set('trust proxy', 1); // Required on Render
 //Middleware to parse json and form data
 app.use(express.json());
 app.use(express.urlencoded({extended : false}));
