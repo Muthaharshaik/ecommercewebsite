@@ -17,7 +17,18 @@ const verifyAuth = (req, res, next) => {
         next();
     })
 }
-
+const checkAuth = (req,res,next) => {
+    const token = req.cookies.token;
+    if(!token) {
+        return next();
+    }
+    jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
+        if (!error) {
+            req.user = decoded;
+        }
+    next(); // continue regardless of verification success
+    });
+}
 const admin = (req,res,next) => {
     if (req.user && req.user.role === 'admin') {
         next(); 
@@ -27,5 +38,6 @@ const admin = (req,res,next) => {
 }
 module.exports = {
     verifyAuth,
-    admin
+    admin,
+    checkAuth
 };

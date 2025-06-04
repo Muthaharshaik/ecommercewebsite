@@ -1,7 +1,10 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.DEV
+  ? ''
+  : import.meta.env.VITE_API_BASE_URL;
+
 
 const CategoryPage = () => {
   const { categoryName } = useParams();

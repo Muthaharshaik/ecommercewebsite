@@ -1,6 +1,9 @@
 import React, {createContext, useContext, useState, useEffect} from "react";
 import axios from "axios";
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.DEV
+  ? ''
+  : import.meta.env.VITE_API_BASE_URL;
+
 
 //creating a context(it cretes a global state object)
 const UserContext = createContext();

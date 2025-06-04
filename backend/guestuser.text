@@ -1,0 +1,15 @@
+//add to cart functionality
+first we will check whether the user is registred or not by checking req.user._id
+if there he is a registred user then by we will check if the cart is already there not by using the userid reference 
+from the cart model,
+The reference works in a way that if the req.user._id finds in cart model, then it will return cart
+document of that specific user
+like if a user the add the products of that specific id we will store in the cart model his id, the products
+he added ..
+
+incse of guest user then first initalize session cart in req.session,
+then we will check if there is an exsting product by using indexof other wsie we will push the
+product id and qquantity in the req.session.cart.products and by using product model we will get
+the details of the product by finding from the product model using the product and we will send that response to the 
+front end
+Promise.all([...])	Wait for all products to be fetched in parallel

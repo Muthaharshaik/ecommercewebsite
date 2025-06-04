@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useCart } from '../context/cartContext';
-import { useUser } from '../context/userContext';
 import toast from 'react-hot-toast';
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.DEV
+  ? ''
+  : import.meta.env.VITE_API_BASE_URL;
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { addToCart } = useCart();
-  const { user } = useUser();
+
 
   const [product, setProduct] = useState(null);
 
@@ -26,11 +26,6 @@ const ProductDetailsPage = () => {
   }, [id]);
 
   const handleAddToCart = async () => {
-    if (!user) {
-      toast.error('Please login to add items to cart');
-      setTimeout(() => navigate('/'), 4000);
-      return;
-    }
 
     try {
       await addToCart(product._id,1);

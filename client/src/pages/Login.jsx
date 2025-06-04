@@ -2,7 +2,10 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/userContext';
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.DEV
+  ? ''
+  : import.meta.env.VITE_API_BASE_URL;
+
 
 const LoginPage = () => {
   const [form, setForm] = useState({ email: '', password: '' });

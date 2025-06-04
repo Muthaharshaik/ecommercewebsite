@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://muthaharsmart.onrender.com', // Backend URL
+        target: 'http://localhost:3000', // Backend URL
         changeOrigin: true,
         secure: false,
       },

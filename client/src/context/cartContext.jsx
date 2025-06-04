@@ -2,13 +2,13 @@
 
 import React, {useContext, createContext, useEffect, useState} from "react";
 import axios from "axios";
-import { useUser } from "./userContext";
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.DEV
+  ? ''
+  : import.meta.env.VITE_API_BASE_URL;
 
 const CartContext = createContext();
 export const CartProvider = ({children}) => {
     const [cartItems, setCartItems] = useState([]);
-    const { user } = useUser();
     // Fetch cart items for the logged-in user
     const fetchCart = async() => {
         try {
@@ -63,12 +63,8 @@ export const CartProvider = ({children}) => {
 
 
     useEffect(() => {
-      if (user) {
-      fetchCart(); // refetch cart when user logs in or refresh happens
-     } else {
-      setCartItems([]); // clear cart for guests
-    }
-   }, [user]);
+     fetchCart()
+   });
 
     return (
        <CartContext.Provider value={{ cartItems, setCartItems, addToCart, fetchCart, 

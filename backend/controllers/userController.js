@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
+const { mergeCartAfterLogin } = require('../controllers/cartControllers')
 
 //Registering a new user('/api/users/register)
 
@@ -59,8 +59,9 @@ async function loginUser(req,res) {
 
         if (!user || !(await bcrypt.compare(password, user.password))) {
             return res.status(400).json({ message: "Invalid username or password" });
-          }
-          
+        }
+        // Merge session cart into DB cart before creating token and sending response
+        await mergeCartAfterLogin(req,user._id);
         //creating jwt token
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
             expiresIn: "1h"
