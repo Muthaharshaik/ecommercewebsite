@@ -5,7 +5,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import './CheckoutPage.css'
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.DEV
+  ? ''
+  : import.meta.env.VITE_API_BASE_URL;
 
 const CheckoutPage = () => {
   const { cartItems, clearCart } = useCart();
@@ -59,8 +61,6 @@ const validateForm = () => {
       console.log("Razorpay SDK failed to load");
       return;
     }
-
-    if (!user) return toast.error('Please login to continue');
 
     try {
       const { data } = await axios.post(`${baseUrl}/api/payment/create-order`, {

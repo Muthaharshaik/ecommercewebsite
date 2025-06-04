@@ -9,23 +9,38 @@ const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const cors = require('cors');
+const session = require('express-session')
 require('dotenv').config();
-
 connectDB();
+app.get('/ping', (req, res) => res.send('pong'));
 
 //Middleware to parse json and form data
+app.use(cookieParser()); // ⬅️ Must come before checkAuth
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false , maxAge: 30 * 60 * 1000}
+}));
 app.use(express.json());
-app.use(express.urlencoded({extended : false}));
-app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
 app.use(cors({
   origin: ['http://localhost:5173', 'https://muthaharsmart.netlify.app'],
-  credentials: true // if using cookies/auth
+  credentials: true
 }));
 
 
-app.get('/', (req,res) => {
-    res.send("Welcome to Ecom development");
-})
+// app.get('/', (req,res) => {
+//     res.send("Welcome to Ecom development");
+// })
+app.get('/test-session', (req, res) => {
+  if (!req.session.views) {
+    req.session.views = 1;
+  } else {
+    req.session.views++;
+  }
+  res.json({ views: req.session.views });
+});
 
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);

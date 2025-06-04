@@ -2,32 +2,27 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Cart.css';
 import { useCart } from '../context/cartContext';
-import { useUser } from '../context/userContext';  // <-- your user context hook
+import { useUser } from '../context/userContext';
+import toast from 'react-hot-toast';
 
 const Cart = () => {
   const { cartItems, increaseQty, decreaseQty, removeItem } = useCart();
-  const { user } = useUser();  // get user from context
   const navigate = useNavigate();
+  const { user } = useUser();
+
+  const handleClick = ()=> {
+    if(!user) {
+      toast.error("Please login/signup to proceed to checkout")
+    } else {
+      navigate('/checkout')
+    }
+  }
+
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
-
-  const handleGoHome = () => {
-    navigate('/');
-  };
-
   return (
     <div className="cart-page">
       <h2 className="cart-title">Shopping Cart ({cartItems.length})</h2>
-
-      {!user ? (
-        <div className="guest-message">
-          <p>
-            Only registered users can manage the cart and proceed to checkout.<br />
-            Please login or register to continue.
-          </p>
-          <button onClick={handleGoHome} className="btn-go-home">Go to Home Page</button>
-        </div>
-      ) : (
         <div className="cart-layout">
           <div className="cart-items">
             {cartItems.map(item => (
@@ -79,10 +74,9 @@ const Cart = () => {
               <span>Total:</span>
               <span>₹{subtotal.toFixed(2)}</span>
             </div>
-            <button className="checkout-btn" onClick={() => navigate('/checkout')}>Checkout</button>
+            <button className="checkout-btn" onClick={() => handleClick()}>Checkout</button>
           </div>
         </div>
-      )}
     </div>
   );
 };
